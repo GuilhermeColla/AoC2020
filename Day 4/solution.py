@@ -39,7 +39,7 @@ def part1(data, restrict=0):
                         r'pid:\d{9}\s'
                         ]
     else:
-        full_pattern = [r(byr)', '(iyr)', '(eyr)', '(hgt)', '(hcl)', '(ecl)', '(pid)']
+        full_pattern = ['(byr)', '(iyr)', '(eyr)', '(hgt)', '(hcl)', '(ecl)', '(pid)']
     for element in data:
         passed_tests = 0
         for pattern in full_pattern:
