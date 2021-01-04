@@ -1,5 +1,5 @@
 #! /usr/bin/env python3
-# Part 1 is a copy of https://github.com/VitaminJai solution because my logic was exatcly the same
+# Part 1 is a copy of https://github.com/VitaminJai solution. My logic is exatcly the same
 # but his implementation is straightup better.
 import re
 
