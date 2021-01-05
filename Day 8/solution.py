@@ -62,6 +62,7 @@ if __name__ == "__main__":
             example_input = f.read().replace("\n"," ").split(" ")
             print("Part 1 example answer:", part1(example_input)[0])
             print("Part 2 example answer:", part2(example_input))
+    
     with open("Day 8/puzzle_input", "r") as f:
         puzzle_input = f.read().replace("\n"," ").split(" ")
         print("Part 1 puzzle answer:", part1(puzzle_input)[0])
