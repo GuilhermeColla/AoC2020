@@ -52,10 +52,11 @@ if __name__ == "__main__":
     if example:
         with open("Day 9/example_input", "r") as f:
             example_input = f.read().splitlines()
-            print("Part 1 example answer:", part1(example_input,5))
-            print("Part 2 example answer:", part2(example_input, part1(example_input, 5)))
+        print("Part 1 example answer:", part1(example_input,5))
+        print("Part 2 example answer:", part2(example_input, part1(example_input, 5)))
+
     with open("Day 9/puzzle_input", "r") as f:
         puzzle_input = f.read().splitlines()
-        print("Part 1 puzzle answer:", part1(puzzle_input, 25))
-        pt2_ans = part2(puzzle_input, part1(puzzle_input, 25))
-        print("Part 2 puzzle answer:",pt2_ans[0]+pt2_ans[-1])
+    print("Part 1 puzzle answer:", part1(puzzle_input, 25))
+    pt2_ans = part2(puzzle_input, part1(puzzle_input, 25))
+    print("Part 2 puzzle answer:",pt2_ans[0]+pt2_ans[-1])
