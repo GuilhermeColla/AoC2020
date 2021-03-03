@@ -16,34 +16,51 @@ def part1(ferry):
             if seat == ".":
                 pass
             else:
-                # Need these conditions for the edges, because python returns a value for list[-1].
+                # Need these conditions for the edges, because python returns a value for list[-1], and we
+                # do not want that.
+
+                # Taking the current seat as a reference:
+                # Checking the tree seats above
                 if row_number > 0 and (0 < seat_number < (len(row)-1)):
                     aux += original[row_number-1][seat_number-1:seat_number+2].count("#")
+                # The tree seats below
                 if row_number < (len(original)-1) and (0 < seat_number < (len(row)-1)):
                     aux += original[row_number+1][seat_number-1:seat_number+2].count("#")
+                # The seat on the left
                 if seat_number > 0:
                     aux += original[row_number][seat_number-1].count("#")
+                # The seat on the right
                 if seat_number < len(row)-1:
                     aux += original[row_number][seat_number+1].count("#")
+                # Now the four corners of the matrix:
+                # Leftmost seats
                 if seat_number == 0:
+                    # Checking the two seats below if not on the bottom row
                     if row_number != len(original)-1:
                         aux += original[row_number+1][:seat_number+2].count("#")
+                    # Checking the two seats above if not on top row
                     if row_number != 0:
                         aux += original[row_number-1][:seat_number+2].count("#")
+                # Rightmost seats
                 if seat_number == len(row)-1:
+                    # Checking two seats below if not on the bottom row
                     if row_number != len(original)-1:
                         aux += original[row_number+1][seat_number-1:].count("#")
+                    # Checking two seats above if not on the top row
                     if row_number != 0:
                         aux += original[row_number-1][seat_number-1:].count("#")
                 
-                
+                # Checking and changing the seat state, if needed.
                 if seat == "L" and aux == 0:
                     ferry[row_number][seat_number] = "#"
                 elif seat == "#" and aux > 3:
                     ferry[row_number][seat_number] = "L"
+
+    # Checking if any seat changed, and repeat the process if needed.
     if ferry != original:
-        part1(ferry)   #todo: Count the occupied seats.  
+        part1(ferry)  
     
+    # Counting the number of occupied seats if no seats changed state, and returning an int value.
     occupied = 0
     for row in ferry:
         occupied += row.count("#")
