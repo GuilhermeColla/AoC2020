@@ -1,15 +1,15 @@
 #! /usr/bin/env python3
 import copy
 
-example = 0
-puzzle = 1
+example = 1
+puzzle = 0
 
 # If a seat is empty (L) and there are no occupied seats adjacent to it, the seat becomes occupied.
 # If a seat is occupied (#) and four or more seats adjacent to it are also occupied, the seat becomes empty.
 # Otherwise, the seat's state does not change.
 
 def part1(ferry):
-    original = copy.deepcopy(ferry) # .copy() needed because "original = ferry" doesn't create a new list.
+    original = copy.deepcopy(ferry) # needed because "original = ferry" doesn't create a new list.
     for row_number, row in enumerate(ferry):
         for seat_number, seat in enumerate(row):
             aux = 0 # counts occupied seats adjacent to the current seat.
@@ -67,7 +67,58 @@ def part1(ferry):
     return occupied
 
 
+def part2(ferry):
+    original2 = copy.deepcopy(ferry)
+    aux = 0 # this will count occupied seats that the person sees from a seat.
+    count = 0 # this will be used to create the "line of sight"
+    for row_number, row in enumerate(ferry):
+        for seat_number, seat in enumerate(row):
+            if seat == ".":
+                pass
+            else:
+                while  (
+                        (row_number-count) >= 0 or
+                        (row_number+count) < len(row) or
+                        (seat_number-count) >= 0 or
+                        (seat_number+count) < len(original2)
+                        ):
 
+                    count += 1
+
+                    # Checking if we arrived at the top row
+                    if (row_number - count) >= 0:
+                        aux += original2[row_number-count][seat_number].count("#")
+                        # Checking if we arrived at the leftmost seat
+                        if (seat_number - count) >= 0:
+                            aux += original2[row_number-count][seat_number-count].count("#")
+                            aux += original2[row_number][seat_number-count].count("#")
+                        # rightmost seat
+                        if (seat_number + count) < len(row):
+                            aux += original2[row_number-count][seat_number+count].count("#")
+                            aux += original2[row_number][seat_number+count].count("#")
+                    # bottom row
+                    if (row_number + count) < len(original2):
+                        aux += original2[row_number+count][seat_number].count("#")
+                        # leftmost seat
+                        if (seat_number - count) >= 0:
+                            aux += original2[row_number+count][seat_number-count].count("#")
+                        # rightmost seat
+                        if (seat_number + count) < len(row):
+                            aux += original2[row_number+count][seat_number+count].count("#")
+            # Checking and changing the seat state, if needed.
+            if seat == "L" and aux == 0:
+                ferry[row_number][seat_number] = "#"
+            elif seat == "#" and aux > 3:
+                ferry[row_number][seat_number] = "L"
+    # Checking if any seat changed, and repeat the process if needed.
+    if ferry != original2:
+        part2(ferry)
+    
+    # Counting the number of occupied seats if no seats changed state, and returning an int value.
+    occupied = 0
+    for row in ferry:
+        occupied += row.count("#")
+    return occupied      
 
 
 if __name__ == "__main__":
@@ -77,9 +128,8 @@ if __name__ == "__main__":
     if example:
         with open("Day 11/example_input", "r") as f:
             example_input = list(map(list, f.read().splitlines()))
-        with open("Day 11/example_answer", "r") as f:
-            example_answer = list(map(list, f.read().splitlines()))
-        print(part1(example_input))
+        #print(part1(example_input))
+        print(part2(example_input))
     if puzzle:
         with open("Day 11/puzzle_input", "r") as f:
             puzzle_input = list(map(list,f.read().splitlines()))
